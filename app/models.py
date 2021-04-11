@@ -1,9 +1,14 @@
 from app import db
 from datetime import datetime
+from flask_whooshalchemy import whoosh_index
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-from app import login
+from app import login,app
 from hashlib import md5
+from flask_msearch import Search
+
+search = Search()
+search.init_app(app)
 
 @login.user_loader
 def load_user(id):
@@ -60,6 +65,7 @@ class User(UserMixin, db.Model):
 
 
 class Post(db.Model):
+  __searchable__ = ['body']
   id = db.Column(db.Integer, primary_key=True)
   body = db.Column(db.String(140))
   timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
@@ -67,3 +73,5 @@ class Post(db.Model):
 
   def __repr__(self):
     return '<Post {}>'.format(self.body)
+
+# whoosh_index(app, Post)

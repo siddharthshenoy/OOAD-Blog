@@ -1,10 +1,26 @@
 from flask import render_template, flash, redirect, url_for, request
 from werkzeug.urls import url_parse
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, EditProfileForm, PostForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, PostForm, SearchForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Post
-from datetime import datetime
+from datetime import datetime, timedelta
+
+# # create four users
+# u1 = User(username='john', email='john@example.com')
+# u2 = User(username='susan', email='susan@example.com')
+# u3 = User(username='mary', email='mary@example.com')
+# u4 = User(username='david', email='david@example.com')
+# db.session.add_all([u1, u2, u3, u4])
+
+#     # create four posts
+# now = datetime.utcnow()
+# p1 = Post(body="post from john", author=u1, timestamp=now + timedelta(seconds=1))
+# p2 = Post(body="post from susan", author=u2, timestamp=now + timedelta(seconds=4))
+# p3 = Post(body="post from mary", author=u3, timestamp=now + timedelta(seconds=3))
+# p4 = Post(body="post from david", author=u4,timestamp=now + timedelta(seconds=2))
+# db.session.add_all([p1, p2, p3, p4])
+# db.session.commit()
 
 @app.before_request
 def before_request():
@@ -163,3 +179,18 @@ def explore():
     posts=posts.items,
     next_url=next_url,
     prev_url=prev_url)
+
+@app.route('/search', methods=['GET', 'POST'])
+@login_required
+def search():
+    form = SearchForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        return redirect((url_for('search_results', query=form.search.data)))  # or what you want
+    return render_template('search.html', form=form)
+
+@app.route('/search_results/<query>')
+@login_required
+def search_results(query):
+  results = Post.query.msearch(query)
+  return render_template('index.html',title='Search Results',posts=results)
+

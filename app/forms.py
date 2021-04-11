@@ -47,3 +47,8 @@ class PostForm(FlaskForm):
   ])
   submit = SubmitField('Submit')
 
+class SearchForm(FlaskForm):
+  search = StringField('search', [DataRequired()])
+  submit = SubmitField('Search',
+  render_kw={'class': 'btn btn-success btn-block'})
+
