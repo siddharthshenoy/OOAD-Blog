@@ -1,3 +1,6 @@
+wheel
+python-dotenv
+flask
 flask_sqlalchemy
 flask_migrate
 flask_login
@@ -9,6 +12,7 @@ flask_wtf
 flask-msearch
 # when MSEARCH_BACKEND = "whoosh"
 whoosh
+flask_whooshalchemy
 blinker
 # when MSEARCH_BACKEND = "elasticsearch", only for 6.x.x
 elasticsearch==6.3.1
