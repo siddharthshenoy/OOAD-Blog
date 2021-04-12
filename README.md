@@ -1,4 +1,4 @@
-# Python Blog using Flask
+# Python Blog using Flask FOR OOAD PROJECT
 
 This is a blog, written in Python, that uses the Flask web framework.
 
