@@ -15,12 +15,14 @@ This is a blog, written in Python, that uses the Flask web framework.
 3. Install Python packages
 
     `pip install -r requirements.txt`
+        >Note:before this install wheel `sudo pip3 install wheel`
 
 4. Create the required database and tables by performing the DB migrations:
 
     `flask db upgrade`
 
     > Note: this will create an app.db file on your local machine, and use sqlite as a database engine.
+   
 
 5. Start a local flask server
 
